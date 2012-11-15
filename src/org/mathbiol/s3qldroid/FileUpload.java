@@ -1,31 +1,33 @@
 package org.mathbiol.s3qldroid;
 
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.Toast;
-import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+
 public class FileUpload extends SherlockActivity {
 	ActionMode mMode;
 	public static int THEME = R.style.Theme_Sherlock;
 	private static Camera camera;
-
+	private CameraPreview mPreview;
+	
 	public static Camera getCameraInstance() {
 		Camera c = null;
 		try {
 			c = Camera.open(0); 
 			
 		} catch (Exception e) {
-	
-			//Log.e("camera", e.getMessage());
+			
 			throw new RuntimeException(e);
 
 		}
@@ -36,8 +38,9 @@ public class FileUpload extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_file_upload);
+	
+	    
 
 	}
 
@@ -53,7 +56,7 @@ public class FileUpload extends SherlockActivity {
 		webSettings.setUseWideViewPort(true);
 		webSettings.setJavaScriptEnabled(true);
 		myWebView.loadUrl("http://sandbox2.mathbiol.org/blueimp/ex4/");
-		setTheme(THEME); // Used for theme switching in samples
+		setTheme(THEME); 
 		mMode = startActionMode(new AnActionModeOfEpicProportions());
 
 	}
@@ -115,18 +118,30 @@ public class FileUpload extends SherlockActivity {
 			if (itemTitle.equals("Save")) {
 
 				camera = FileUpload.getCameraInstance();
-				if (camera != null) {
+				if (camera != null) {               
+					mPreview = new CameraPreview(getApplicationContext(), camera);
+				    Intent camPreviewIntent=new Intent(mPreview.getContext(),CameraPreview.class);
+                    startActivity(camPreviewIntent);
+				    //preview is null ....
+					//  by adding framelayout in self-layout.xml , solved
+					//  that imply need to call another activity to come back				
+					// try put the following lines in  camera_preview.java
+        			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 
-					Toast.makeText(FileUpload.this,"here",
-							 Toast.LENGTH_SHORT).show();
-					camera.release();
+					if(preview==null){
+						Toast.makeText(FileUpload.this,"p", Toast.LENGTH_SHORT).show();
+
+					}
+
+					
+     			    preview.addView(mPreview);
+					
 					
 				
 				}
 
 				else {
-					 Toast.makeText(FileUpload.this, "not",
-					 Toast.LENGTH_SHORT).show();
+					 Toast.makeText(FileUpload.this, "not",Toast.LENGTH_SHORT).show();
 				}
 				
 				
@@ -139,6 +154,7 @@ public class FileUpload extends SherlockActivity {
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+			// camera release doesn't work here
 		}
 	}
 }

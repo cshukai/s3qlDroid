@@ -2,15 +2,23 @@
     package="org.mathbiol.s3qldroid"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="15" />
@@ -21,12 +29,21 @@
         android:theme="@style/Theme.Sherlock" >
         <activity
             android:name=".FileUpload"
-            android:label="@string/title_activity_file_upload" 
-            android:uiOptions="splitActionBarWhenNarrow">
+            android:label="@string/title_activity_file_upload"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CameraPreview"
+            android:label="@string/title_activity_camera_preview" 
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.SYNC" />
+                <category android:name="android.intent.category.GADGET" />
             </intent-filter>
         </activity>
     </application>
