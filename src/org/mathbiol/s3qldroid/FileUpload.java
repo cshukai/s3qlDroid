@@ -1,12 +1,18 @@
 package org.mathbiol.s3qldroid;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Intent;
-import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -16,24 +22,93 @@ import com.actionbarsherlock.view.MenuItem;
 
 
 public class FileUpload extends SherlockActivity {
+	//setting of camera intent
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+	private Uri fileUri;
+	public static final int MEDIA_TYPE_IMAGE = 1;
+	public static final int MEDIA_TYPE_VIDEO = 2;
+
+	// setting of actionbarsherlock
 	ActionMode mMode;
 	public static int THEME = R.style.Theme_Sherlock;
-	private static Camera camera;
-	private CameraPreview mPreview;
 	
-	public static Camera getCameraInstance() {
-		Camera c = null;
-		try {
-			c = Camera.open(0); 
-			
-		} catch (Exception e) {
-			
-			throw new RuntimeException(e);
-
-		}
-		return c;
+	
+	/** Create a file Uri for saving an image or video */
+	private static Uri getOutputMediaFileUri(int type){
+	      return Uri.fromFile(getOutputMediaFile(type));
 	}
 
+	/** Create a File for saving an image or video */
+	private static File getOutputMediaFile(int type){
+	    // To be safe, you should check that the SDCard is mounted
+	    // using Environment.getExternalStorageState() before doing this.
+
+	    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+	              Environment.DIRECTORY_PICTURES), "s3qldroid");
+	    // This location works best if you want the created images to be shared
+	    // between applications and persist after your app has been uninstalled.
+
+	    // Create the storage directory if it does not exist
+	    if (! mediaStorageDir.exists()){
+	        if (! mediaStorageDir.mkdirs()){
+	            Log.d("s3qldroid", "failed to create directory");
+	            return null;
+	        }
+	    }
+
+	    // Create a media file name
+	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+	    File mediaFile;
+	    if (type == MEDIA_TYPE_IMAGE){
+	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+	        "IMG_"+ timeStamp + ".jpg");
+	    } else if(type == MEDIA_TYPE_VIDEO) {
+	        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+	        "VID_"+ timeStamp + ".mp4");
+	    } else {
+	        return null;
+	    }
+
+	    return mediaFile;
+	}
+
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+	        if (resultCode == RESULT_OK) {
+	        	if(data!=null){
+	        		 // Image captured and saved to fileUri specified in the Intent
+		            Toast.makeText(FileUpload.this, "Image saved to:\n" +
+		                     data.getData(), Toast.LENGTH_LONG).show();
+	        	}
+	        	
+	        	else{
+	        		//MediaStore.Images.Media.insertImage
+	        	}
+	        	
+	           
+	        } else if (resultCode == RESULT_CANCELED) {
+	            // User cancelled the image capture
+	        } else {
+	            // Image capture failed, advise user
+	        }
+	    }
+
+	    if (requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+	        if (resultCode == RESULT_OK) {
+	            // Video captured and saved to fileUri specified in the Intent
+	            Toast.makeText(FileUpload.this, "Video saved to:\n" +
+	                     data.getData(), Toast.LENGTH_LONG).show();
+	        } else if (resultCode == RESULT_CANCELED) {
+	            // User cancelled the video capture
+	        } else {
+	            // Video capture failed, advise user
+	        }
+	    }
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -117,44 +192,25 @@ public class FileUpload extends SherlockActivity {
 			String itemTitle = item.getTitle().toString();
 			if (itemTitle.equals("Save")) {
 
-				camera = FileUpload.getCameraInstance();
-				if (camera != null) {               
-					mPreview = new CameraPreview(getApplicationContext(), camera);
-				    Intent camPreviewIntent=new Intent(mPreview.getContext(),CameraPreview.class);
-                    startActivity(camPreviewIntent);
-				    //preview is null ....
-					//  by adding framelayout in self-layout.xml , solved
-					//  that imply need to call another activity to come back				
-					// try put the following lines in  camera_preview.java
-        			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-
-					if(preview==null){
-						Toast.makeText(FileUpload.this,"p", Toast.LENGTH_SHORT).show();
-
-					}
-
-					
-     			    preview.addView(mPreview);
-					
-					
-				
-				}
-
-				else {
-					 Toast.makeText(FileUpload.this, "not",Toast.LENGTH_SHORT).show();
-				}
-				
-				
-
+				 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				  fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+				  //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+				  intent.putExtra("org.mathbiol.s3qldroid.FileUpload", fileUri); // set the image file name
+				    // start the image capture Intent
+				    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+				    
 			}
 		
 
 			return true;
 		}
 
+		
+		
+		
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			// camera release doesn't work here
+			
 		}
 	}
 }
