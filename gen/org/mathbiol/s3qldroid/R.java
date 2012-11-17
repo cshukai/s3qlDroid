@@ -1024,6 +1024,7 @@ containing a value of this type.
     public static final class menu {
         public static final int activity_camera_preview=0x7f0b0000;
         public static final int activity_file_upload=0x7f0b0001;
+        public static final int activity_media_scanner_wrapper=0x7f0b0002;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1076,6 +1077,7 @@ containing a value of this type.
         public static final int menu_settings=0x7f090011;
         public static final int title_activity_camera_preview=0x7f090013;
         public static final int title_activity_file_upload=0x7f090012;
+        public static final int title_activity_media_scanner_wrapper=0x7f090014;
     }
     public static final class style {
         public static final int AppTheme=0x7f0a0059;

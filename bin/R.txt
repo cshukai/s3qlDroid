@@ -341,6 +341,7 @@ int layout sherlock_spinner_dropdown_item 0x7f030019
 int layout sherlock_spinner_item 0x7f03001a
 int menu activity_camera_preview 0x7f0b0000
 int menu activity_file_upload 0x7f0b0001
+int menu activity_media_scanner_wrapper 0x7f0b0002
 int string abs__action_bar_home_description 0x7f090000
 int string abs__action_bar_up_description 0x7f090001
 int string abs__action_menu_overflow_description 0x7f090002
@@ -361,6 +362,7 @@ int string hello_world 0x7f090010
 int string menu_settings 0x7f090011
 int string title_activity_camera_preview 0x7f090013
 int string title_activity_file_upload 0x7f090012
+int string title_activity_media_scanner_wrapper 0x7f090014
 int style AppTheme 0x7f0a0059
 int style DialogWindowTitle_Sherlock 0x7f0a0036
 int style DialogWindowTitle_Sherlock_Light 0x7f0a0037

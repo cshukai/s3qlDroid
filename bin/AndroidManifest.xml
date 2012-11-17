@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.mathbiol.s3qldroid"
     android:versionCode="1"
@@ -28,7 +29,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock" >
         <activity
-            android:name=".FileUpload"
+            android:name="org.mathbiol.s3qldroid.FileUpload"
             android:label="@string/title_activity_file_upload"
             android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
@@ -38,14 +39,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CameraPreview"
-            android:label="@string/title_activity_camera_preview" 
-            android:screenOrientation="landscape">
+            android:name="org.mathbiol.s3qldroid.CameraPreview"
+            android:label="@string/title_activity_camera_preview"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.SYNC" />
+
                 <category android:name="android.intent.category.GADGET" />
             </intent-filter>
         </activity>
+        
     </application>
 
 </manifest>

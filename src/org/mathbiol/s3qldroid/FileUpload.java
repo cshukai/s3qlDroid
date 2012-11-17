@@ -4,7 +4,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,19 +30,20 @@ public class FileUpload extends SherlockActivity {
 	private Uri fileUri;
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
-
+    	
 	// setting of actionbarsherlock
 	ActionMode mMode;
 	public static int THEME = R.style.Theme_Sherlock;
 	
 	
+	
 	/** Create a file Uri for saving an image or video */
-	private static Uri getOutputMediaFileUri(int type){
+	private Uri getOutputMediaFileUri(int type){
 	      return Uri.fromFile(getOutputMediaFile(type));
 	}
 
 	/** Create a File for saving an image or video */
-	private static File getOutputMediaFile(int type){
+	private  File getOutputMediaFile(int type){
 	    // To be safe, you should check that the SDCard is mounted
 	    // using Environment.getExternalStorageState() before doing this.
 
@@ -70,8 +73,15 @@ public class FileUpload extends SherlockActivity {
 	        return null;
 	    }
 
+	 
+	    //updateMediaStore
+	    MediaScannerWrapper mediaWrapper=new MediaScannerWrapper(FileUpload.this,mediaFile.getAbsolutePath(),null);
+	    mediaWrapper.scan();
 	    return mediaFile;
 	}
+   
+	
+	
 
 	
 	@Override
@@ -79,9 +89,14 @@ public class FileUpload extends SherlockActivity {
 	    if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 	        if (resultCode == RESULT_OK) {
 	        	if(data!=null){
+	        		
+	        		  
+	        		
 	        		 // Image captured and saved to fileUri specified in the Intent
 		            Toast.makeText(FileUpload.this, "Image saved to:\n" +
 		                     data.getData(), Toast.LENGTH_LONG).show();
+		            
+		          
 	        	}
 	        	
 	        	else{
@@ -194,8 +209,8 @@ public class FileUpload extends SherlockActivity {
 
 				 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				  fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-				  //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-				  intent.putExtra("org.mathbiol.s3qldroid.FileUpload", fileUri); // set the image file name
+				  intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+				  //intent.putExtra("org.mathbiol.s3qldroid.FileUpload", fileUri); // set the image file name
 				    // start the image capture Intent
 				    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 				    
@@ -212,5 +227,37 @@ public class FileUpload extends SherlockActivity {
 		public void onDestroyActionMode(ActionMode mode) {
 			
 		}
+	}
+	
+	
+	
+	class MediaScannerWrapper implements  MediaScannerConnection.MediaScannerConnectionClient{
+		 private MediaScannerConnection mConnection;
+		    private String mPath;
+		    private String mMimeType;
+
+		    // filePath - where to scan; 
+		    // mime type of media to scan i.e. "image/jpeg". 
+		    // use "*/*" for any media
+		    public MediaScannerWrapper(Context ctx, String filePath, String mime){
+		        mPath = filePath;
+		        mMimeType = mime;
+		        mConnection = new MediaScannerConnection(ctx, this);
+		    }
+
+		    // do the scanning
+		    public void scan() {
+		        mConnection.connect();
+		    }
+
+		    // start the scan when scanner is ready
+		    public void onMediaScannerConnected() {
+		        mConnection.scanFile(mPath, mMimeType);
+		        Log.w("MediaScannerWrapper", "media file scanned: " + mPath);
+		    }
+
+		    public void onScanCompleted(String path, Uri uri) {
+		        // when scan is completes, update media file tags
+		    }
 	}
 }
