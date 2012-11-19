@@ -973,18 +973,23 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__titleDivider=0x7f04001c;
         public static final int abs__up=0x7f04000b;
+        public static final int button1=0x7f04003a;
         public static final int button_capture=0x7f040034;
         public static final int camera_preview=0x7f040033;
         public static final int disableHome=0x7f040009;
+        public static final int editText1=0x7f040037;
+        public static final int editText2=0x7f040039;
         public static final int edit_query=0x7f040027;
         public static final int homeAsUp=0x7f040006;
         public static final int listMode=0x7f040002;
-        public static final int menu_settings=0x7f040036;
+        public static final int menu_settings=0x7f04003b;
         public static final int normal=0x7f040001;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int tabMode=0x7f040003;
+        public static final int textView1=0x7f040036;
+        public static final int textView2=0x7f040038;
         public static final int useLogo=0x7f040004;
         public static final int webview=0x7f040035;
         public static final int wrap_content=0x7f040000;
@@ -1018,13 +1023,15 @@ containing a value of this type.
         public static final int abs__simple_dropdown_hint=0x7f030016;
         public static final int activity_camera_preview=0x7f030017;
         public static final int activity_file_upload=0x7f030018;
-        public static final int sherlock_spinner_dropdown_item=0x7f030019;
-        public static final int sherlock_spinner_item=0x7f03001a;
+        public static final int activity_s3_dbc=0x7f030019;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001a;
+        public static final int sherlock_spinner_item=0x7f03001b;
     }
     public static final class menu {
         public static final int activity_camera_preview=0x7f0b0000;
         public static final int activity_file_upload=0x7f0b0001;
         public static final int activity_media_scanner_wrapper=0x7f0b0002;
+        public static final int activity_s3_dbc=0x7f0b0003;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1078,6 +1085,7 @@ containing a value of this type.
         public static final int title_activity_camera_preview=0x7f090013;
         public static final int title_activity_file_upload=0x7f090012;
         public static final int title_activity_media_scanner_wrapper=0x7f090014;
+        public static final int title_activity_s3_dbc=0x7f090015;
     }
     public static final class style {
         public static final int AppTheme=0x7f0a0059;

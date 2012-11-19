@@ -48,7 +48,16 @@
                 <category android:name="android.intent.category.GADGET" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name="org.mathbiol.s3qldroid.S3DBC"
+            android:label="@string/title_activity_s3_dbc" >
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                 <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>       
     </application>
 
 </manifest>
