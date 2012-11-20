@@ -220,11 +220,7 @@ public class FileUpload extends SherlockActivity {
 			if (itemTitle.equals("Refresh")) {
 
 				  Intent intent = new Intent(FileUpload.this,S3DBC.class);
-				  fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-				  intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-				  //intent.putExtra("org.mathbiol.s3qldroid.FileUpload", fileUri); // set the image file name
-				    // start the image capture Intent
-				    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+				  startActivity(intent);				 
 				    
 			}
 			
