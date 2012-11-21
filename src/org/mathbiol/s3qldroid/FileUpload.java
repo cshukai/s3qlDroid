@@ -13,12 +13,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.loopj.android.http.RequestParams;
 
 
 public class FileUpload extends SherlockActivity {
@@ -29,10 +33,12 @@ public class FileUpload extends SherlockActivity {
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
     	
-	//setting of gallery access
+	//setting of gallery access and s3db upload
 	//ourgoodies
 	private static final int SELECT_PICTURE = 1;
 	private String selectedImagePath;
+	private String collection_id;
+	private String rule_id;
 	
 	// setting of actionbarsherlock
 	ActionMode mMode;
@@ -130,10 +136,17 @@ public class FileUpload extends SherlockActivity {
 	    // ourgoodies
 	    if (requestCode == SELECT_PICTURE) {
 	    	if (resultCode == RESULT_OK) {
+	    		
+	    		
 	            Uri selectedImageUri = data.getData();
 	            selectedImagePath = selectedImageUri.getPath();
 	            Toast.makeText(FileUpload.this, selectedImagePath, Toast.LENGTH_LONG).show();
 	    		
+	            // need to parse s3db key
+	            S3DBC.params = new RequestParams();
+	            S3DBC.params.put("collection_id",collection_id);
+	  		    S3DBC.params.put("password", rule_id);
+	  		    S3DBC.params.put("format", "json");
 	    	}
 
         }
@@ -145,8 +158,21 @@ public class FileUpload extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_upload);
 	
-	    
-
+		final Button upload_button = (Button) findViewById(R.id.upload_button);
+		final EditText collectionIdField=(EditText)findViewById(R.id.collection_id_input);
+		final EditText password_field=(EditText)findViewById(R.id.rule_id_input);
+        collection_id=collectionIdField.getText().toString();
+		rule_id=password_field.getText().toString();
+		
+		upload_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	//ourgoodies
+				Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);		
+            }
+        });
 	}
 
 	@Override
@@ -225,11 +251,7 @@ public class FileUpload extends SherlockActivity {
 		
 
 			if (itemTitle.equals("Refresh")) {
-				//ourgoodies
-				Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);				 
+					 
 				    
 			}
 			

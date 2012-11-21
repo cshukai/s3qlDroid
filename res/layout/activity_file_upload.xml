@@ -3,14 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-   <WebView
-         
-         android:id="@+id/webview"
-         android:layout_width="fill_parent"
-         android:layout_height="fill_parent" 
-        />
-   
-   
- 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical" >
+        
+          <TextView
+        android:id="@+id/collection_id"
+        android:text="collection id:"
+        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <EditText
+        android:id="@+id/collection_id_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:inputType="text"     
+        >
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/rule_id_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rule id:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/rule_id_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"      
+        android:text="Choose file and Upload.." />
+        
+        
+    </LinearLayout>
 
 </RelativeLayout>

@@ -18,7 +18,7 @@ public class S3DBC extends Activity {
 
 	private static String BASE_URL="http://204.232.200.16/uabs3db";
     private static AsyncHttpClient client = new AsyncHttpClient();
-	private static RequestParams params;
+	static RequestParams params;
 	private static AsyncHttpResponseHandler responseHandler;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,29 @@ public class S3DBC extends Activity {
 	  }
 
 	  public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-	      client.post(getAbsoluteUrl(url), params, responseHandler);
+	      client.post(getAbsoluteUrl(url), params,new AsyncHttpResponseHandler() {
+	    	     @Override
+	    	     public void onStart() {
+	    	         // Initiated the request
+	    	     }
+
+	    	     @Override
+	    	     public void onSuccess(String response) {
+	    	         // Successfully got a response
+	    	    	 Log.v("s3dbc",response);
+	    	     }
+	    	 
+	    	     @Override
+	    	     public void onFailure(Throwable e, String response) {
+	    	         // Response failed :(
+	    	    	 Log.e("s3dbc",response);
+	    	     }
+
+	    	     @Override
+	    	     public void onFinish() {
+	    	         // Completed the request (either success or failure)
+	    	     }
+	      });
 	  }
 
 	  private static String getAbsoluteUrl(String relativeUrl) {

@@ -975,23 +975,26 @@ containing a value of this type.
         public static final int abs__up=0x7f04000b;
         public static final int button_capture=0x7f040034;
         public static final int camera_preview=0x7f040033;
+        public static final int collection_id=0x7f040035;
+        public static final int collection_id_input=0x7f040036;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040027;
         public static final int homeAsUp=0x7f040006;
         public static final int listMode=0x7f040002;
-        public static final int login_button=0x7f04003a;
-        public static final int menu_settings=0x7f04003b;
+        public static final int login_button=0x7f04003d;
+        public static final int menu_settings=0x7f04003e;
         public static final int normal=0x7f040001;
-        public static final int password_field=0x7f040039;
+        public static final int password_field=0x7f04003c;
+        public static final int rule_id_input=0x7f040037;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int tabMode=0x7f040003;
-        public static final int textView1=0x7f040036;
-        public static final int textView2=0x7f040038;
+        public static final int textView1=0x7f040039;
+        public static final int textView2=0x7f04003b;
+        public static final int upload_button=0x7f040038;
         public static final int useLogo=0x7f040004;
-        public static final int usrname_field=0x7f040037;
-        public static final int webview=0x7f040035;
+        public static final int usrname_field=0x7f04003a;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
