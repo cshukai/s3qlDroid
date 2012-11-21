@@ -33,8 +33,9 @@
             android:label="@string/title_activity_file_upload"
             android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
-                 <action android:name="android.intent.action.VIEW" />
-                 <action android:name="android.intent.action.EDIT" />               
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -48,15 +49,20 @@
                 <category android:name="android.intent.category.GADGET" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="org.mathbiol.s3qldroid.S3DBC"
             android:label="@string/title_activity_s3_dbc" >
-            
             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />             
-                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>       
+        </activity>
+        
+        <activity
+            android:name="org.mathbiol.s3qldroid.FunctionList"
+            android:label="@string/title_activity_function_list" >
+        </activity>
     </application>
 
 </manifest>

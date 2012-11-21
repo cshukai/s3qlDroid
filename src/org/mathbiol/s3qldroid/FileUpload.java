@@ -6,15 +6,13 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -31,6 +29,11 @@ public class FileUpload extends SherlockActivity {
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
     	
+	//setting of gallery access
+	//ourgoodies
+	private static final int SELECT_PICTURE = 1;
+	private String selectedImagePath;
+	
 	// setting of actionbarsherlock
 	ActionMode mMode;
 	public static int THEME = R.style.Theme_Sherlock;
@@ -122,6 +125,18 @@ public class FileUpload extends SherlockActivity {
 	            // Video capture failed, advise user
 	        }
 	    }
+	    
+	    
+	    // ourgoodies
+	    if (requestCode == SELECT_PICTURE) {
+	    	if (resultCode == RESULT_OK) {
+	            Uri selectedImageUri = data.getData();
+	            selectedImagePath = selectedImageUri.getPath();
+	            Toast.makeText(FileUpload.this, selectedImagePath, Toast.LENGTH_LONG).show();
+	    		
+	    	}
+
+        }
 	}
 	
 	@Override
@@ -137,15 +152,7 @@ public class FileUpload extends SherlockActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		WebView myWebView = (WebView) findViewById(R.id.webview);
-		myWebView.setWebViewClient(new WebViewClient());
-
-		WebSettings webSettings = myWebView.getSettings();
-		webSettings.setLoadWithOverviewMode(true);
-		webSettings.setUseWideViewPort(true);
-		webSettings.setJavaScriptEnabled(true);
-		myWebView.loadUrl("http://sandbox2.mathbiol.org/blueimp/ex4/");
+        
 		setTheme(THEME); 
 		mMode = startActionMode(new AnActionModeOfEpicProportions());
 
@@ -218,9 +225,11 @@ public class FileUpload extends SherlockActivity {
 		
 
 			if (itemTitle.equals("Refresh")) {
-
-				  Intent intent = new Intent(FileUpload.this,S3DBC.class);
-				  startActivity(intent);				 
+				//ourgoodies
+				Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);				 
 				    
 			}
 			
@@ -228,7 +237,15 @@ public class FileUpload extends SherlockActivity {
 			return true;
 		}
 
-		
+		//ourgoodies
+		/* getting url of files in media store */
+		public String getPath(Uri uri) {
+		    String[] projection = { MediaStore.Images.Media.DATA };
+		    Cursor cursor = managedQuery(uri, projection, null, null, null);
+		    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		    cursor.moveToFirst();
+		    return cursor.getString(column_index);
+		}
 		
 		
 		@Override

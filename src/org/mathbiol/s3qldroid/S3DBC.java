@@ -1,6 +1,7 @@
 package org.mathbiol.s3qldroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +33,8 @@ public class S3DBC extends Activity {
 		login_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 S3DBC.s3dbc_login(usrnameFiled.getText().toString(), password_field.getText().toString());
+                Intent intent = new Intent(S3DBC.this,FileUpload.class);
+				startActivity(intent);
             }
         });
 	}

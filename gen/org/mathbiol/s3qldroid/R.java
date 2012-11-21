@@ -1023,15 +1023,17 @@ containing a value of this type.
         public static final int abs__simple_dropdown_hint=0x7f030016;
         public static final int activity_camera_preview=0x7f030017;
         public static final int activity_file_upload=0x7f030018;
-        public static final int activity_s3_dbc=0x7f030019;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001a;
-        public static final int sherlock_spinner_item=0x7f03001b;
+        public static final int activity_function_list=0x7f030019;
+        public static final int activity_s3_dbc=0x7f03001a;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
+        public static final int sherlock_spinner_item=0x7f03001c;
     }
     public static final class menu {
         public static final int activity_camera_preview=0x7f0b0000;
         public static final int activity_file_upload=0x7f0b0001;
-        public static final int activity_media_scanner_wrapper=0x7f0b0002;
-        public static final int activity_s3_dbc=0x7f0b0003;
+        public static final int activity_function_list=0x7f0b0002;
+        public static final int activity_media_scanner_wrapper=0x7f0b0003;
+        public static final int activity_s3_dbc=0x7f0b0004;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1084,6 +1086,7 @@ containing a value of this type.
         public static final int menu_settings=0x7f090011;
         public static final int title_activity_camera_preview=0x7f090013;
         public static final int title_activity_file_upload=0x7f090012;
+        public static final int title_activity_function_list=0x7f090016;
         public static final int title_activity_media_scanner_wrapper=0x7f090014;
         public static final int title_activity_s3_dbc=0x7f090015;
     }
