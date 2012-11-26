@@ -1,6 +1,7 @@
 package org.mathbiol.s3qldroid;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -143,9 +144,28 @@ public class FileUpload extends SherlockActivity {
 	    		
 	            // need to parse s3db key
 	            S3DBC.params = new RequestParams();
+	            S3DBC.params.put("key",S3DBC.api_key);
+	            
+	            // ref : 
+	            //1.http://loopj.com/android-async-http/
+	            //2. http://stackoverflow.com/questions/4855447/how-to-use-blob-with-json-and-php
+	            // try get the json format off  ?
+	            //
+	            File tes_pic = new File(selectedImageUri.toString());
 	            S3DBC.params.put("collection_id",collection_id);
 	  		    S3DBC.params.put("password", rule_id);
 	  		    S3DBC.params.put("format", "json");
+	  	     	  try {
+	  		           S3DBC.params.put("test_picture",tes_pic);
+	  	    	} catch(FileNotFoundException e) {
+	  	    		
+	  	    		 //result : it happened...
+	  	    		 Log.v("s3dbc","file not found exception");
+	  	    	}
+	  		    
+	  		    
+	  		    S3DBC.post("/multiupload.php",  S3DBC.params, S3DBC.responseHandler);
+	  		    
 	    	}
 
         }

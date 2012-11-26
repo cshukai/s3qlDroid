@@ -21,7 +21,8 @@ public class S3DBC extends Activity {
 	private static String BASE_URL="http://204.232.200.16/uabs3db";
     private static AsyncHttpClient client = new AsyncHttpClient();
 	static RequestParams params;
-	private static AsyncHttpResponseHandler responseHandler;
+	public static AsyncHttpResponseHandler responseHandler;
+	public static String api_key;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class S3DBC extends Activity {
 		
 		login_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-              S3DBC.parseApiKey("<TABLE><TR><TD>key_id</TD><TD>expires</TD><TD>notes</TD><TD>account_id</TD></TR><TR><TD>3BGJ30JJvSWGW4z</TD><TD>2012-11-21 22:14:27</TD><TD>Key generated automatically via API</TD><TD>106</TD></TR></TABLE>");
+              //  S3DBC.parseApiKey("<TABLE><TR><TD>key_id</TD><TD>expires</TD><TD>notes</TD><TD>account_id</TD></TR><TR><TD>3BGJ30JJvSWGW4z</TD><TD>2012-11-21 22:14:27</TD><TD>Key generated automatically via API</TD><TD>106</TD></TR></TABLE>");
             	S3DBC.s3dbc_login(usrnameFiled.getText().toString(), password_field.getText().toString());
                 Intent intent = new Intent(S3DBC.this,FileUpload.class);
 				startActivity(intent);
@@ -99,6 +100,7 @@ public class S3DBC extends Activity {
 	    	     public void onSuccess(String response) {
 	    	         // Successfully got a response
 	    	    	 Log.v("s3dbc",response);
+	    	    	 S3DBC.api_key= S3DBC.parseApiKey(response);
 	    	     }
 	    	 
 	    	     @Override
