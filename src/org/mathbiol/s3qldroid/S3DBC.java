@@ -1,7 +1,9 @@
 package org.mathbiol.s3qldroid;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -61,10 +63,26 @@ public class S3DBC extends Activity {
 	 }
 	
 	
+	 @TargetApi(Build.VERSION_CODES.JELLY_BEAN) 
 	 public static String parseApiKey(String htmlText){
+		 //example
+		 // 1. using Html.fromHtml(htmlText).toString
+		 //key_idexpiresnotesaccount_id3BGJ30JJvSWGW4z2012-11-21
+		 //2.using Html.escapeHtml
+		// &lt;TABLE&gt;&lt;TR&gt;&lt;TD&gt;key_id&lt;/TD&gt;&lt;TD&gt;expires&lt;/TD&gt;&lt;TD&gt;notes&lt;/TD&gt;&lt;TD&gt;account_id&lt;/TD&gt;&lt;/TR&gt;&lt;TR&gt;&lt;TD&gt;3BGJ30JJvSWGW4z&lt;/TD&gt;&lt;TD&gt;2012-11-21 22:14:27&lt;/TD&gt;&lt;TD&gt;Key generated automatically via API&lt;/TD&gt;&lt;TD&gt;106&lt;/TD&gt;&lt;/TR&gt;&lt;/TABLE&gt;
+		 
 		 String result=null;
-		 String temp= Html.fromHtml(htmlText).toString();
-		 Log.v("s3dbc",temp);
+		// String [] temp= Html.escapeHtml(htmlText).split("&gt;*&lt");
+		 String [] temp= Html.escapeHtml(htmlText).split(";");
+		 
+//		 for(int i=0; i <temp.length;i++){
+//			 Log.v("s3dbc","index:"+i+"is"+temp[i]);	 
+//		 }
+		 
+		 String temp_2=temp[26];
+		 String []temp_3=temp_2.split("&");
+		 result=temp_3[0];		 
+		// Log.v("s3dbc",result);
 		 
 		 return result;
 	 }
