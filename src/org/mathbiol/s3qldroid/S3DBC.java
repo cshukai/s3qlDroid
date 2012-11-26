@@ -3,12 +3,12 @@ package org.mathbiol.s3qldroid;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -32,7 +32,8 @@ public class S3DBC extends Activity {
 		
 		login_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                S3DBC.s3dbc_login(usrnameFiled.getText().toString(), password_field.getText().toString());
+              S3DBC.parseApiKey("<TABLE><TR><TD>key_id</TD><TD>expires</TD><TD>notes</TD><TD>account_id</TD></TR><TR><TD>3BGJ30JJvSWGW4z</TD><TD>2012-11-21 22:14:27</TD><TD>Key generated automatically via API</TD><TD>106</TD></TR></TABLE>");
+            	S3DBC.s3dbc_login(usrnameFiled.getText().toString(), password_field.getText().toString());
                 Intent intent = new Intent(S3DBC.this,FileUpload.class);
 				startActivity(intent);
             }
@@ -60,6 +61,14 @@ public class S3DBC extends Activity {
 	 }
 	
 	
+	 public static String parseApiKey(String htmlText){
+		 String result=null;
+		 String temp= Html.fromHtml(htmlText).toString();
+		 Log.v("s3dbc",temp);
+		 
+		 return result;
+	 }
+	 
 
 	  public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {		 
 	      client.get(getAbsoluteUrl(url), params, new AsyncHttpResponseHandler() {

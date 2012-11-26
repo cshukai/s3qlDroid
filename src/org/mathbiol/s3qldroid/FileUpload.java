@@ -34,7 +34,6 @@ public class FileUpload extends SherlockActivity {
 	public static final int MEDIA_TYPE_VIDEO = 2;
     	
 	//setting of gallery access and s3db upload
-	//ourgoodies
 	private static final int SELECT_PICTURE = 1;
 	private String selectedImagePath;
 	private String collection_id;
