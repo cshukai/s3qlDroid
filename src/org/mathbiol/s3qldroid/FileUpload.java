@@ -2,9 +2,11 @@ package org.mathbiol.s3qldroid;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -142,29 +144,29 @@ public class FileUpload extends SherlockActivity {
 	            selectedImagePath = selectedImageUri.getPath();
 	            Toast.makeText(FileUpload.this, selectedImagePath, Toast.LENGTH_LONG).show();
 	    		
-	            // need to parse s3db key
 	            S3DBC.params = new RequestParams();
 	            S3DBC.params.put("key",S3DBC.api_key);
-	            
-	            // ref : 
-	            //1.http://loopj.com/android-async-http/
-	            //2. http://stackoverflow.com/questions/4855447/how-to-use-blob-with-json-and-php
-	            // try get the json format off  ?
-	            //
-	            File tes_pic = new File(selectedImageUri.toString());
 	            S3DBC.params.put("collection_id",collection_id);
-	  		    S3DBC.params.put("password", rule_id);
-	  		    S3DBC.params.put("format", "json");
-	  	     	  try {
-	  		           S3DBC.params.put("test_picture",tes_pic);
-	  	    	} catch(FileNotFoundException e) {
-	  	    		
-	  	    		 //result : it happened...
-	  	    		 Log.v("s3dbc","file not found exception");
-	  	    	}
-	  		    
-	  		    
-	  		    S3DBC.post("/multiupload.php",  S3DBC.params, S3DBC.responseHandler);
+		  		S3DBC.params.put("rule_id", rule_id);
+		  		S3DBC.params.put("format", "json");
+	       
+	            
+	            ContentResolver cr = FileUpload.this.getContentResolver();
+  	    		try {
+					  InputStream img_input_stream = cr.openInputStream(selectedImageUri);
+					
+			  		  S3DBC.params.put("filename",img_input_stream,"s3ql_droid_test.jpg");
+			  	     	 
+			  		      		    
+			  		    S3DBC.post("/multiupload.php",  S3DBC.params, S3DBC.responseHandler);
+					
+				} catch (FileNotFoundException e1) {
+					Log.v("s3dbc","file not found");
+					e1.printStackTrace();
+				}
+	           
+	            
+	          
 	  		    
 	    	}
 
@@ -179,9 +181,7 @@ public class FileUpload extends SherlockActivity {
 	
 		final Button upload_button = (Button) findViewById(R.id.upload_button);
 		final EditText collectionIdField=(EditText)findViewById(R.id.collection_id_input);
-		final EditText password_field=(EditText)findViewById(R.id.rule_id_input);
-        collection_id=collectionIdField.getText().toString();
-		rule_id=password_field.getText().toString();
+		final EditText ruleId_field=(EditText)findViewById(R.id.rule_id_input);
 		
 		upload_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -189,6 +189,8 @@ public class FileUpload extends SherlockActivity {
 				Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
+                collection_id=collectionIdField.getText().toString();
+                rule_id=ruleId_field.getText().toString();
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);		
             }
         });
