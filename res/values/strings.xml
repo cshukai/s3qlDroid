@@ -9,5 +9,6 @@
     <string name="title_activity_media_scanner_wrapper">MediaScannerWrapper</string>
     <string name="title_activity_s3_dbc">S3DBC</string>
     <string name="title_activity_function_list">FunctionList</string>
+    <string name="title_activity_insert_demo">InsertDemo</string>
 
 </resources>

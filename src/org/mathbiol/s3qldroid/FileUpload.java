@@ -135,7 +135,6 @@ public class FileUpload extends SherlockActivity {
 	    }
 	    
 	    
-	    // ourgoodies
 	    if (requestCode == SELECT_PICTURE) {
 	    	if (resultCode == RESULT_OK) {
 	    		
