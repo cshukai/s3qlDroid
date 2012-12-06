@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -58,13 +61,39 @@ public class InsertDemo extends Activity {
         }
         
         else{          	
-           	 LocationProvider provider =locationManager.getProvider(LocationManager.GPS_PROVIDER);          	 
+           	 LocationProvider provider =locationManager.getProvider(LocationManager.GPS_PROVIDER);
+           	 LocationListener locationListener = new LocationListener() {
+           	    public void onLocationChanged(Location location) {
+           	      // Called when a new location is found by the network location provider.
+           	      //makeUseOfNewLocation(location);
+           	    	double latitude=location.getLatitude();
+           	    	double longtitude=location.getLongitude();
+           	    	Log.v("GPS said your latitdue is ..",Double.toString(latitude));
+           	    	Log.v("GPS said your longtitude is ..",Double.toString(longtitude));
+           	    	
+           	    }
+
+           	    public void onStatusChanged(String provider, int status, Bundle extras) {
+           	    	
+           	    }
+
+           	    public void onProviderEnabled(String provider) {
+           	    	
+           	    }
+
+           	    public void onProviderDisabled(String provider) {
+           	    	
+           	    }
+           	  };
+
+           	// Register the listener with the Location Manager to receive location updates
+           	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+           	
         }
         
 		
 	}
 
-	
 	private void enableLocationSettings() {
 	    Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 	    startActivity(settingsIntent);
