@@ -42,7 +42,7 @@ public class S3DBC extends Activity {
             public void onClick(View v) {
               //  S3DBC.parseApiKey("<TABLE><TR><TD>key_id</TD><TD>expires</TD><TD>notes</TD><TD>account_id</TD></TR><TR><TD>3BGJ30JJvSWGW4z</TD><TD>2012-11-21 22:14:27</TD><TD>Key generated automatically via API</TD><TD>106</TD></TR></TABLE>");
             	S3DBC.s3dbc_login(usrnameFiled.getText().toString(), password_field.getText().toString());
-                Intent intent = new Intent(S3DBC.this,FileUpload.class);
+                Intent intent = new Intent(S3DBC.this,InsertDemo.class);
 				startActivity(intent);
             }
         });
@@ -104,11 +104,23 @@ public class S3DBC extends Activity {
 		 
 	 }
 	 
-	 public static void insertItem(String collectionId, String notes){
-		 responseHandler=new AsyncHttpResponseHandler();
+	 public static String insertItem(String collectionId, String notes){
+		 String query="<S3QL>"+"<insert>item</insert>"+"<where>"+"<collection_id>"+collectionId+"</collection_id>"+ "<notes>" + notes + "</notes>"+"</where>"+"</S3QL>";
+		 responseHandler=new AsyncHttpResponseHandler();	 
+		 
+		 sendS3Qlrequest(query, api_key);
+		 
+		 return query;
 	 }
 	 
-	 
+	 public static void sendS3Qlrequest(String query,String api_key){
+		 params = new RequestParams();
+		 params.put("key",api_key);
+		 params.put("format", "json");
+		 params.put("query", query);
+		 
+		 S3DBC.get("/S3QL.php", params, responseHandler);
+	 }
 
 	  public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {		 
 	      client.get(getAbsoluteUrl(url), params, new AsyncHttpResponseHandler() {

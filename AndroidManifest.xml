@@ -53,7 +53,10 @@
         <activity
             android:name="org.mathbiol.s3qldroid.S3DBC"
             android:label="@string/title_activity_s3_dbc" >
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="org.mathbiol.s3qldroid.FunctionList"
@@ -62,11 +65,7 @@
         <activity
             android:name="org.mathbiol.s3qldroid.InsertDemo"
             android:label="@string/title_activity_insert_demo" >
-             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
