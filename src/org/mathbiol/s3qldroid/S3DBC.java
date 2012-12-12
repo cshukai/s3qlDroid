@@ -32,7 +32,6 @@ public class S3DBC extends Activity {
     
 	static RequestParams params;
 	public static AsyncHttpResponseHandler responseHandler;
-	private static JsonHttpResponseHandler jsonResponseHandler;
 	public static String api_key;
 	private static String action_flag;
 	
@@ -163,69 +162,39 @@ public class S3DBC extends Activity {
 	  public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
 		  
 		  
+		  /*
+		   * https://github.com/loopj/android-async-http/issues/91#issuecomment-10104937
+		   * should explains why JsonHttpResponseHandler should not be used for S3DB response 
+		   */
 		  if(action_flag.equals("select_item_by_itemId")){
 			  
-			  client.get(getAbsoluteUrl(url), params, new JsonHttpResponseHandler() {
+			  client.get(getAbsoluteUrl(url), params, new AsyncHttpResponseHandler() {
 				  
 		    	     @Override
 		    	     public void onStart() {
-		    	    	 
-		    	    	 //  called
-		    	    	 Log.v("s3dbc_json","debugging_start");
+
+		    	    	 Log.v("s3dbc_selecItem","debugging_start");
 		    	     }
 
+		    	
 		    	     @Override
-		    	     public void onSuccess(JSONObject response) {
-                            // not called
-		    	    	 Log.v("s3dbc_json","debugging_success");
-		    	    	 try {
-							Log.v("s3dbc_json",response.getString("notes"));
-							
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+		    	     public void onSuccess(String response) {
+		    	         // Successfully got a response
+	    	    	 
+	    	    	    Log.v("s3dbc_selecItem",response);
 		    	    	
-		    	    	 
-		    	    			    	    	
 		    	     }
-		    	     
-		    	     
-//		    	     @Override
-//		    	     public void onSuccess(String response) {
-//		    	         // not called
-//		    	    	 Log.v("s3dbc_json",response);
-//		    	    
-//		    	    	
-//		    	     }
-//		    	     
-//		    	     
-//		    	     @Override
-//		    	     public void onFailure(Throwable e, String response) {
-//		    	         // not called
-//		    	    	 Log.e("s3dbc_json",response);
-//		    	     }
-		    	     
 		    	 
 		    	     @Override
-		    	     public void onFailure(Throwable e, JSONObject  error) {
-		    	         // not called
-		    	    	 Log.v("s3dbc_json","debugging_onfail");
-		    	    	 
-		    	    	 try {
-							Log.e("s3dbc_json",error.getString("error"));
-						} 
-		    	    	 
-		    	    	 catch (JSONException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+		    	     public void onFailure(Throwable e, String response) {
+		    	         // Response failed :(
+		    	    	 Log.e("s3dbc_selecItem",response);
 		    	     }
 
 		    	     @Override
 		    	     public void onFinish() {
-		    	    	 //called
-		    	    	 Log.v("s3dbc_json","process_finished");
+		    	    
+		    	    	 Log.v("s3dbc_selecItem","process_finished");
 		    	     }
 		      });	
 			 	  
