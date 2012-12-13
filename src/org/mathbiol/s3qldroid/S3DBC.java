@@ -3,9 +3,6 @@ package org.mathbiol.s3qldroid;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -20,20 +17,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class S3DBC extends Activity {
 
 	private static String BASE_URL="http://204.232.200.16/uabs3db";
     private static AsyncHttpClient client = new AsyncHttpClient();
-    
+   
 	static RequestParams params;
 	public static AsyncHttpResponseHandler responseHandler;
 	public static String api_key;
 	private static String action_flag;
+	private static JsonArray json_array;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -164,7 +163,13 @@ public class S3DBC extends Activity {
 		  
 		  /*
 		   * https://github.com/loopj/android-async-http/issues/91#issuecomment-10104937
-		   * should explains why JsonHttpResponseHandler should not be used for S3DB response 
+		   * should explains why JsonHttpResponseHandler should not be used for S3DB response
+		   * 
+		   *  example
+		   *  [{"id":"301","label":"Bionavigator Original Data : http:\/\/youtu.be\/LZOLNT3_KbI","description":"http:\/\/youtu.be\/LZOLNT3_KbI","creator":"106","created":"2012-12-11 22:21:58","resource_id":"301","resource_class_id":"89","entity":"Bionavigator Original Data","notes":"http:\/\/youtu.be\/LZOLNT3_KbI","project_id":"88","created_on":"2012-12-11 22:21:58","created_by":"106","collection_id":"89","class_id":"89","instance_id":"301","item_id":"301","permission_level":"yyy","assigned_permission":"---","effective_permission":"yyy","uid":"D4422|I301","uri":"http:\/\/204.232.200.16\/uabs3db\/I301"}]
+		   *  
+		   *  debugging:
+		   *  http://stackoverflow.com/questions/12895182/reading-gson-from-json-string
 		   */
 		  if(action_flag.equals("select_item_by_itemId")){
 			  
@@ -182,7 +187,22 @@ public class S3DBC extends Activity {
 		    	         // Successfully got a response
 	    	    	 
 	    	    	    Log.v("s3dbc_selecItem",response);
-		    	    	
+	    	    	    
+	    	    	   
+	    	    	    if(new JsonParser().parse(response).isJsonArray()){
+	    	    	    	// Log.v("s3dbc_selecItem","array");
+	    	    	    	 json_array=new JsonParser().parse(response).getAsJsonArray();
+	    	    	    	 
+	    	    	    	 for(int i=0;i<json_array.size();i++){
+	    	    	    		 Log.v("s3dbc_forloop",json_array.get(i).toString());
+	    	    	    	 }
+	    	    	    }
+	    	    	    
+	    	    	    if(new JsonParser().parse(response).isJsonPrimitive()){
+	    	    	    	// Log.v("s3dbc_selecItem","primitive");
+	    	    	    }
+	    	    	   
+	    	    	   // Log.v("s3dbc_selecItem",json_obj.get("id").toString());
 		    	     }
 		    	 
 		    	     @Override
