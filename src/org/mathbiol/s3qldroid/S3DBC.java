@@ -16,8 +16,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -33,6 +35,10 @@ public class S3DBC extends Activity {
 	public static String api_key;
 	private static String action_flag;
 	private static JsonArray json_array;
+	private static JsonObject json_obj;
+	
+	
+	public static String selected_item_notes;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -189,13 +195,13 @@ public class S3DBC extends Activity {
 	    	    	    Log.v("s3dbc_selecItem",response);
 	    	    	    
 	    	    	   
-	    	    	    if(new JsonParser().parse(response).isJsonArray()){
-	    	    	    	// Log.v("s3dbc_selecItem","array");
+	    	    	    if(new JsonParser().parse(response).isJsonArray()){	    	    	    	
 	    	    	    	 json_array=new JsonParser().parse(response).getAsJsonArray();
+	    	    	    	 json_obj=json_array.get(0).getAsJsonObject();
+	    	    	    	 selected_item_notes=json_obj.get("notes").toString();
+	    	    	    	 Log.v("s3dbc_selectItem",selected_item_notes);
+	    	    	    		
 	    	    	    	 
-	    	    	    	 for(int i=0;i<json_array.size();i++){
-	    	    	    		 Log.v("s3dbc_forloop",json_array.get(i).toString());
-	    	    	    	 }
 	    	    	    }
 	    	    	    
 	    	    	    if(new JsonParser().parse(response).isJsonPrimitive()){

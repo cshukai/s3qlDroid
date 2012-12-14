@@ -983,26 +983,27 @@ containing a value of this type.
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040027;
         public static final int homeAsUp=0x7f040006;
-        public static final int item_id_input=0x7f040044;
-        public static final int item_id_label=0x7f040045;
+        public static final int item_id_input=0x7f040045;
+        public static final int item_id_label=0x7f040046;
         public static final int linearLayout1=0x7f04003a;
         public static final int listMode=0x7f040002;
-        public static final int login_button=0x7f040042;
-        public static final int menu_settings=0x7f040046;
+        public static final int login_button=0x7f040043;
+        public static final int menu_settings=0x7f040047;
         public static final int normal=0x7f040001;
-        public static final int password_field=0x7f040041;
+        public static final int password_field=0x7f040042;
+        public static final int play_video_button=0x7f04003e;
         public static final int rule_id=0x7f040037;
         public static final int rule_id_input=0x7f040038;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
-        public static final int submit4selection=0x7f040043;
+        public static final int submit4selection=0x7f040044;
         public static final int tabMode=0x7f040003;
-        public static final int textView1=0x7f04003e;
-        public static final int textView2=0x7f040040;
+        public static final int textView1=0x7f04003f;
+        public static final int textView2=0x7f040041;
         public static final int upload_button=0x7f040039;
         public static final int useLogo=0x7f040004;
-        public static final int usrname_field=0x7f04003f;
+        public static final int usrname_field=0x7f040040;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
@@ -1036,10 +1037,11 @@ containing a value of this type.
         public static final int activity_file_upload=0x7f030018;
         public static final int activity_function_list=0x7f030019;
         public static final int activity_insert_demo=0x7f03001a;
-        public static final int activity_s3_dbc=0x7f03001b;
-        public static final int activity_select_demo=0x7f03001c;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001d;
-        public static final int sherlock_spinner_item=0x7f03001e;
+        public static final int activity_multi_media_proceesing=0x7f03001b;
+        public static final int activity_s3_dbc=0x7f03001c;
+        public static final int activity_select_demo=0x7f03001d;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001e;
+        public static final int sherlock_spinner_item=0x7f03001f;
     }
     public static final class menu {
         public static final int activity_camera_preview=0x7f0b0000;
@@ -1047,8 +1049,9 @@ containing a value of this type.
         public static final int activity_function_list=0x7f0b0002;
         public static final int activity_insert_demo=0x7f0b0003;
         public static final int activity_media_scanner_wrapper=0x7f0b0004;
-        public static final int activity_s3_dbc=0x7f0b0005;
-        public static final int activity_select_demo=0x7f0b0006;
+        public static final int activity_multi_media_proceesing=0x7f0b0005;
+        public static final int activity_s3_dbc=0x7f0b0006;
+        public static final int activity_select_demo=0x7f0b0007;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1104,6 +1107,7 @@ containing a value of this type.
         public static final int title_activity_function_list=0x7f090016;
         public static final int title_activity_insert_demo=0x7f090017;
         public static final int title_activity_media_scanner_wrapper=0x7f090014;
+        public static final int title_activity_multi_media_proceesing=0x7f090019;
         public static final int title_activity_s3_dbc=0x7f090015;
         public static final int title_activity_select_demo=0x7f090018;
     }
