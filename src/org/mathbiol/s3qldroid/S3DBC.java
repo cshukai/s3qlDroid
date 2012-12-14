@@ -16,11 +16,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.keyes.youtube.OpenYouTubePlayerActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -30,6 +30,8 @@ public class S3DBC extends Activity {
 	private static String BASE_URL="http://204.232.200.16/uabs3db";
     private static AsyncHttpClient client = new AsyncHttpClient();
    
+    
+    // for processing  http response
 	static RequestParams params;
 	public static AsyncHttpResponseHandler responseHandler;
 	public static String api_key;
@@ -37,8 +39,12 @@ public class S3DBC extends Activity {
 	private static JsonArray json_array;
 	private static JsonObject json_obj;
 	
-	
+	// for retrieving data
 	public static String selected_item_notes;
+	
+	
+
+	
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -199,6 +205,14 @@ public class S3DBC extends Activity {
 	    	    	    	 json_array=new JsonParser().parse(response).getAsJsonArray();
 	    	    	    	 json_obj=json_array.get(0).getAsJsonObject();
 	    	    	    	 selected_item_notes=json_obj.get("notes").toString();
+	    	    	    	 Intent lVideoIntent = new Intent(null, Uri.parse("ytpl://"+selected_item_notes), this, OpenYouTubePlayerActivity.class);
+	    	    	    	 startActivity(lVideoIntent);
+	    	    	    	 // demo 
+	    	    	    	 /*ref
+	    	    	    	  * http://stackoverflow.com/questions/4864178/how-to-display-youtube-video-in-android-videoview
+	    	    	    	  */
+	    	    	    	
+	    	    	    	 
 	    	    	    	 Log.v("s3dbc_selectItem",selected_item_notes);
 	    	    	    		
 	    	    	    	 
