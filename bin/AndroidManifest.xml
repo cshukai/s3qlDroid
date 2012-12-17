@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-        
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -76,6 +76,10 @@
         <activity
             android:name="org.mathbiol.s3qldroid.MultiMediaProceesing"
             android:label="@string/title_activity_multi_media_proceesing" >
+        </activity>
+        <activity
+            android:name="org.mathbiol.s3qldroid.DbViewer"
+            android:label="@string/title_activity_db_viewer" >
         </activity>
     </application>
 

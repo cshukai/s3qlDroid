@@ -12,5 +12,6 @@
     <string name="title_activity_insert_demo">InsertDemo</string>
     <string name="title_activity_select_demo">SelectDemo</string>
     <string name="title_activity_multi_media_proceesing">MultiMediaProceesing</string>
+    <string name="title_activity_db_viewer">DbViewer</string>
 
 </resources>
