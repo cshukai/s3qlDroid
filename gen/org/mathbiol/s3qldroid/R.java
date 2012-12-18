@@ -1114,6 +1114,7 @@ containing a value of this type.
         public static final int title_activity_insert_demo=0x7f090017;
         public static final int title_activity_media_scanner_wrapper=0x7f090014;
         public static final int title_activity_multi_media_proceesing=0x7f090019;
+        public static final int title_activity_open_youtube_player=0x7f09001b;
         public static final int title_activity_s3_dbc=0x7f090015;
         public static final int title_activity_select_demo=0x7f090018;
     }

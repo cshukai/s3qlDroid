@@ -13,5 +13,5 @@
     <string name="title_activity_select_demo">SelectDemo</string>
     <string name="title_activity_multi_media_proceesing">MultiMediaProceesing</string>
     <string name="title_activity_db_viewer">DbViewer</string>
-
+    <string name="title_activity_open_youtube_player">OpenYouTubePlayer</string>
 </resources>

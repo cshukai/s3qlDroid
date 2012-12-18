@@ -81,6 +81,11 @@
             android:name="org.mathbiol.s3qldroid.DbViewer"
             android:label="@string/title_activity_db_viewer" >
         </activity>
+        <activity
+            android:name="com.keyes.youtube.OpenYouTubePlayerActivity"
+            android:label="@string/title_activity_open_youtube_player" >
+        </activity>
+        
     </application>
 
 </manifest>

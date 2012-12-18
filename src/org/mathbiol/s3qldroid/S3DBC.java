@@ -6,6 +6,7 @@ import java.io.InputStream;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -20,7 +21,6 @@ import android.widget.EditText;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.keyes.youtube.OpenYouTubePlayerActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -38,8 +38,9 @@ public class S3DBC extends Activity {
 	private static String action_flag;
 	private static JsonArray json_array;
 	private static JsonObject json_obj;
-	
+
 	// for retrieving data
+	
 	public static String selected_item_notes;
 	
 	
@@ -59,7 +60,7 @@ public class S3DBC extends Activity {
             public void onClick(View v) {
               //  S3DBC.parseApiKey("<TABLE><TR><TD>key_id</TD><TD>expires</TD><TD>notes</TD><TD>account_id</TD></TR><TR><TD>3BGJ30JJvSWGW4z</TD><TD>2012-11-21 22:14:27</TD><TD>Key generated automatically via API</TD><TD>106</TD></TR></TABLE>");
             	S3DBC.s3dbc_login(usrnameFiled.getText().toString(), password_field.getText().toString());
-                Intent intent = new Intent(S3DBC.this,DbViewer.class);
+                Intent intent = new Intent(S3DBC.this,SelectDemo.class);
 				startActivity(intent);
             }
         });
@@ -179,9 +180,7 @@ public class S3DBC extends Activity {
 		   * 
 		   *  example
 		   *  [{"id":"301","label":"Bionavigator Original Data : http:\/\/youtu.be\/LZOLNT3_KbI","description":"http:\/\/youtu.be\/LZOLNT3_KbI","creator":"106","created":"2012-12-11 22:21:58","resource_id":"301","resource_class_id":"89","entity":"Bionavigator Original Data","notes":"http:\/\/youtu.be\/LZOLNT3_KbI","project_id":"88","created_on":"2012-12-11 22:21:58","created_by":"106","collection_id":"89","class_id":"89","instance_id":"301","item_id":"301","permission_level":"yyy","assigned_permission":"---","effective_permission":"yyy","uid":"D4422|I301","uri":"http:\/\/204.232.200.16\/uabs3db\/I301"}]
-		   *  
-		   *  debugging:
-		   *  http://stackoverflow.com/questions/12895182/reading-gson-from-json-string
+		   *  		
 		   */
 		  if(action_flag.equals("select_item_by_itemId")){
 			  
@@ -205,13 +204,9 @@ public class S3DBC extends Activity {
 	    	    	    	 json_array=new JsonParser().parse(response).getAsJsonArray();
 	    	    	    	 json_obj=json_array.get(0).getAsJsonObject();
 	    	    	    	 selected_item_notes=json_obj.get("notes").toString();
-//	    	    	    	 Intent lVideoIntent = new Intent(null, Uri.parse("ytpl://"+selected_item_notes), this, OpenYouTubePlayerActivity.class);
-//	    	    	    	 startActivity(lVideoIntent);
-	    	    	    	 // demo 
-	    	    	    	 /*ref
-	    	    	    	  * http://stackoverflow.com/questions/4864178/how-to-display-youtube-video-in-android-videoview
-	    	    	    	  */
 	    	    	    	
+	    	    	    	
+
 	    	    	    	 
 	    	    	    	 Log.v("s3dbc_selectItem",selected_item_notes);
 	    	    	    		
@@ -239,6 +234,9 @@ public class S3DBC extends Activity {
 		      });	
 			 	  
 	    	} 
+		  
+		  
+		  
 		  
 		  
 		  if(action_flag.equals("login")){
@@ -273,7 +271,9 @@ public class S3DBC extends Activity {
 		      });		 	
 	    	} 
 		  
-		  
+		 
+    	
+	    	
 	    
 	     
 	  }

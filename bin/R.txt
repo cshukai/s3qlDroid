@@ -399,6 +399,7 @@ int string title_activity_function_list 0x7f090016
 int string title_activity_insert_demo 0x7f090017
 int string title_activity_media_scanner_wrapper 0x7f090014
 int string title_activity_multi_media_proceesing 0x7f090019
+int string title_activity_open_youtube_player 0x7f09001b
 int string title_activity_s3_dbc 0x7f090015
 int string title_activity_select_demo 0x7f090018
 int style AppTheme 0x7f0a0059

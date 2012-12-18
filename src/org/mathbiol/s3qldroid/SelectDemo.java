@@ -1,12 +1,15 @@
 package org.mathbiol.s3qldroid;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.keyes.youtube.OpenYouTubePlayerActivity;
 
 public class SelectDemo extends Activity {
 
@@ -21,8 +24,13 @@ public class SelectDemo extends Activity {
 		submit_itemID_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                    S3DBC.selectItem(itemIdFiled.getText().toString());
+                   Intent intent = new Intent(SelectDemo.this,MultiMediaProceesing.class);
+   				   startActivity(intent);
+	    	    	
+                  
               }
-		});
+		});	
+		
 	}
 
 	@Override

@@ -81,10 +81,7 @@ private class XmlReader extends AsyncTask<String, String, String> {
 				 Log.v("async",  e.getTextContent());
 
 			}
-        	
-        	
-		
-			
+        				
 			return "test";
 		}
 
