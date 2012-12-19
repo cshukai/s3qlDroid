@@ -42,16 +42,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.mathbiol.s3qldroid.CameraPreview"
-            android:label="@string/title_activity_camera_preview"
-            android:screenOrientation="landscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.SYNC" />
-
-                <category android:name="android.intent.category.GADGET" />
-            </intent-filter>
-        </activity>
+       
         <activity
             android:name="org.mathbiol.s3qldroid.S3DBC"
             android:label="@string/title_activity_s3_dbc" >
