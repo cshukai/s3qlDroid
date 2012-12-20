@@ -42,7 +42,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-       
         <activity
             android:name="org.mathbiol.s3qldroid.S3DBC"
             android:label="@string/title_activity_s3_dbc" >
@@ -76,7 +75,14 @@
             android:name="com.keyes.youtube.OpenYouTubePlayerActivity"
             android:label="@string/title_activity_open_youtube_player" >
         </activity>
-        
+        <activity
+            android:name="org.mathbiol.s3qldroid.FileManager"
+            android:label="@string/title_activity_file_manager" >
+        </activity>
+        <activity
+            android:name="org.mathbiol.s3qldroid.FileDownload"
+            android:label="@string/title_activity_file_download" >
+        </activity>
     </application>
 
 </manifest>
