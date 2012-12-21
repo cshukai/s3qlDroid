@@ -1,7 +1,10 @@
 package org.mathbiol.s3qldroid;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -72,7 +75,7 @@ public class S3DBC extends Activity {
 		params = new RequestParams();
 		params.put("key", S3DBC.api_key);
 		params.put("statement_id", statementId);
-
+		//params.put("statement_id", dataType);
 		action_flag = "download_binary";
 
 		responseHandler = new AsyncHttpResponseHandler();
@@ -217,14 +220,43 @@ public class S3DBC extends Activity {
 		}
 
 		if (action_flag.equals("download_binary")) {
-			String[] allowedContentTypes = new String[] { "image/png", "image/jpeg" };
+			String[] allowedContentTypes = new String[] { "image/png", "image/pjpeg","image/jpeg","application/json","text/html" ,"application/octet-stream"};
 			client.get(getAbsoluteUrl(url), params,new BinaryHttpResponseHandler(allowedContentTypes) {
 			    
 				@Override
 			    public void onSuccess(byte[] fileData) {
 			         // prepare to save data to sd card and present in image slider using animation
+					//http://stackoverflow.com/questions/3545493/display-byte-to-imageview-in-android
 					 // consider viewflipper
+					//try specifying data type
+					 try {
+						Log.v("s3dbc_download_binary","onSuccess Fired");
+						OutputStream output = new FileOutputStream("/mnt/sdcard/img/"+"test.jpg");
+						for(int i=0; i< fileData.length;i++){
+							output.write(fileData[i]);	
+						}
+						
+						 output.flush();
+		                 output.close();
+						
+					} catch (FileNotFoundException e) {						
+						e.printStackTrace();
+						Log.e("s3dbc_download_binary","file not found ");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						Log.e("s3dbc_download_binary","IO problem ");
+					}
+
 			    }
+				
+				
+				@Override
+				public void onFailure(Throwable e, byte[] responseBody) {
+					// Response failed :(					
+					Log.e("s3dbc_download_binary", "onfailure fired");
+					e.printStackTrace();
+				}
 			});
 		}
 
