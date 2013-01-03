@@ -220,7 +220,7 @@ public class S3DBC extends Activity {
 		}
 
 		if (action_flag.equals("download_binary")) {
-			String[] allowedContentTypes = new String[] { "image/png", "image/pjpeg","image/jpeg","application/json","text/html" ,"application/octet-stream"};
+			String[] allowedContentTypes = new String[] { "image/png", "image/pjpeg","image/jpeg","application/json","application/download"};
 			client.get(getAbsoluteUrl(url), params,new BinaryHttpResponseHandler(allowedContentTypes) {
 			    
 				@Override
