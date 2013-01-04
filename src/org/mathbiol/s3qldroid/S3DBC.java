@@ -1,10 +1,13 @@
 package org.mathbiol.s3qldroid;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -13,6 +16,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -40,11 +44,12 @@ public class S3DBC extends Activity {
 	private static String action_flag;
 	private static JsonArray json_array;
 	private static JsonObject json_obj;
-
+    
 	// for retrieving data
 
 	public static String selected_item_notes;
-
+    public static byte[] downloadedBinaryDataArray;
+    
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_s3_dbc);
@@ -220,24 +225,42 @@ public class S3DBC extends Activity {
 		}
 
 		if (action_flag.equals("download_binary")) {
-			String[] allowedContentTypes = new String[] { "image/png", "image/pjpeg","image/jpeg","application/json","application/download"};
+			
+			String[] allowedContentTypes = new String[] {"application/download"};
 			client.get(getAbsoluteUrl(url), params,new BinaryHttpResponseHandler(allowedContentTypes) {
 			    
 				@Override
-			    public void onSuccess(byte[] fileData) {
+			    public void onSuccess(byte[] fileData) {					
+					downloadedBinaryDataArray=fileData;
+					Log.v("s3dbc_download_binary","onSuccess Fired");
+					
 			         // prepare to save data to sd card and present in image slider using animation
 					//http://stackoverflow.com/questions/3545493/display-byte-to-imageview-in-android
 					 // consider viewflipper
-					//try specifying data type
+					 File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "s3qldroid");
+					    // This location works best if you want the created images to be shared
+					    // between applications and persist after your app has been uninstalled.
+
+					    // Create the storage directory if it does not exist
+					    if (! mediaStorageDir.exists()){
+					        if (! mediaStorageDir.mkdirs()){
+					            Log.d("s3qldroid", "failed to create directory");
+					            
+					        }
+					    }
+					    
+					   
+					 BufferedOutputStream buf=null;
 					 try {
-						Log.v("s3dbc_download_binary","onSuccess Fired");
-						OutputStream output = new FileOutputStream("/mnt/sdcard/img/"+"test.jpg");
-						for(int i=0; i< fileData.length;i++){
-							output.write(fileData[i]);	
-						}
+						 
+						 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+						 FileOutputStream fileoutput=new FileOutputStream( new File(mediaStorageDir.getPath() + File.separator +"IMG_"+ timeStamp + ".jpg"));
+					     buf = new BufferedOutputStream(fileoutput);
 						
-						 output.flush();
-		                 output.close();
+                         buf.write(fileData);
+						
+						// file not found exception
+                         
 						
 					} catch (FileNotFoundException e) {						
 						e.printStackTrace();
@@ -247,6 +270,21 @@ public class S3DBC extends Activity {
 						e.printStackTrace();
 						Log.e("s3dbc_download_binary","IO problem ");
 					}
+					 
+					 finally{
+						 if(buf!=null){
+							 try {
+								buf.flush();
+								buf.close();
+							} 
+							 
+							 catch (IOException e) {
+								 Log.v("s3dbc_download_binary","buffer flushing or closing problem");
+								 e.printStackTrace();
+							}
+							  
+						 }
+					 }
 
 			    }
 				
@@ -324,5 +362,7 @@ public class S3DBC extends Activity {
 	private static String getAbsoluteUrl(String relativeUrl) {
 		return BASE_URL + relativeUrl;
 	}
-
+    
+	
+	
 }
