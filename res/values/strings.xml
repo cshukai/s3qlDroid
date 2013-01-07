@@ -17,5 +17,6 @@
     <string name="title_activity_xml_importer">XmlImporter</string>
     <string name="title_activity_file_manager">FileManager</string>
     <string name="title_activity_file_download">FileDownload</string>
+    <string name="title_activity_bulk_dowonload_by_type">BulkDowonloadByType</string>
 
 </resources>

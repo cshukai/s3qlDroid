@@ -83,6 +83,10 @@
             android:name="org.mathbiol.s3qldroid.FileDownload"
             android:label="@string/title_activity_file_download" >
         </activity>
+        <activity
+            android:name="org.mathbiol.s3qldroid.BulkDowonloadByType"
+            android:label="@string/title_activity_bulk_dowonload_by_type" >
+        </activity>
     </application>
 
 </manifest>

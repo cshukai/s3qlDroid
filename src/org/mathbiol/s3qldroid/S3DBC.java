@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.annotation.TargetApi;
@@ -44,7 +45,6 @@ public class S3DBC extends Activity {
 	private static String action_flag;
 	private static JsonArray json_array;
 	private static JsonObject json_obj;
-    
 	// for retrieving data
 
 	public static String selected_item_notes;
@@ -63,7 +63,7 @@ public class S3DBC extends Activity {
 			public void onClick(View v) {
 				S3DBC.s3dbc_login(usrnameFiled.getText().toString(),
 						password_field.getText().toString());
-				Intent intent = new Intent(S3DBC.this, FileDownload.class);
+				Intent intent = new Intent(S3DBC.this, BulkDowonloadByType.class);
 				startActivity(intent);
 			}
 		});
@@ -165,6 +165,30 @@ public class S3DBC extends Activity {
 		S3DBC.get("/S3QL.php", params, responseHandler);
 	}
 
+	
+	public static void selectStatmentsByRuleId(String rule_id){
+		action_flag = "select_statement";
+		String query = "<S3QL>" + "<select>*</select>" + "<from>statements</from>"
+				+ "<where>" + "<rule_id>" +rule_id + "</rule_id>" + "</where>"
+				+ "</S3QL>";
+		
+		S3DBC.sendS3Qlrequest(query,S3DBC.api_key);
+	}
+	
+	
+	public static void downloadBinaryFilesByFileTypeAndRuleID(String fileType,String rule_id){
+		 S3DBC.selectStatmentsByRuleId(rule_id);
+		 action_flag ="select_statement_for_later_process";
+	}
+	
+	public static void selectStatmentsByFileName(String fileName){
+		String query = "<S3QL>" + "<select>*</select>" + "<from>statements</from>"
+				+ "<where>" + "<file_name>" +fileName + "</file_name>" + "</where>"
+				+ "</S3QL>";
+		action_flag = "select_statement";
+		S3DBC.sendS3Qlrequest(query,S3DBC.api_key);
+	}
+	
 	public static void get(String url, RequestParams params,
 			AsyncHttpResponseHandler responseHandler) {
 
@@ -223,6 +247,68 @@ public class S3DBC extends Activity {
 					});
 
 		}
+		
+		
+		
+		if (action_flag.equals("select_statement")||action_flag.equals("select_statement_for_later_process")) {
+
+			client.get(getAbsoluteUrl(url), params,
+					new AsyncHttpResponseHandler() {
+
+						@Override
+						public void onStart() {
+
+							Log.v("select_statement", "debugging_start");
+						}
+
+						@Override
+						public void onSuccess(String response) {
+							
+
+							Log.v("select_statement", response);
+
+							if (new JsonParser().parse(response).isJsonArray()) {
+								json_array = new JsonParser().parse(response)
+										.getAsJsonArray();		
+								
+								
+								if(action_flag.equals("select_statement_for_later_process")){
+									ArrayList<String> targetedStatementIdList=new ArrayList<String>();
+									for(int i=0;i<json_array.size();i++){
+										json_obj = json_array.get(i).getAsJsonObject();										
+										targetedStatementIdList.add(json_obj.get("statement_id").toString());
+										Log.v("select_statement_for_later_process",json_obj.get("statement_id").toString());
+									}
+									
+								}
+
+							}
+
+							if (new JsonParser().parse(response)
+									.isJsonPrimitive()) {
+								
+							}
+
+							
+						}
+
+						@Override
+						public void onFailure(Throwable e, String response) {
+							// Response failed :(
+							Log.e("select_statement", response);
+						}
+
+						@Override
+						public void onFinish() {
+
+							Log.v("select_statement", "process_finished");
+						}
+					});
+
+		}
+		
+		
+		
 
 		if (action_flag.equals("download_binary")) {
 			
@@ -238,9 +324,7 @@ public class S3DBC extends Activity {
 					//http://stackoverflow.com/questions/3545493/display-byte-to-imageview-in-android
 					 // consider viewflipper
 					 File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "s3qldroid");
-					    // This location works best if you want the created images to be shared
-					    // between applications and persist after your app has been uninstalled.
-
+					 
 					    // Create the storage directory if it does not exist
 					    if (! mediaStorageDir.exists()){
 					        if (! mediaStorageDir.mkdirs()){
@@ -259,8 +343,6 @@ public class S3DBC extends Activity {
 						
                          buf.write(fileData);
 						
-						// file not found exception
-                         
 						
 					} catch (FileNotFoundException e) {						
 						e.printStackTrace();
@@ -363,6 +445,6 @@ public class S3DBC extends Activity {
 		return BASE_URL + relativeUrl;
 	}
     
-	
+
 	
 }
