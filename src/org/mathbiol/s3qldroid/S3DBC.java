@@ -43,10 +43,11 @@ public class S3DBC extends Activity {
 	public static AsyncHttpResponseHandler responseHandler;
 	public static String api_key;
 	private static String action_flag;
+    private static String downloaded_file_type;
+    
+	// for retrieving data
 	private static JsonArray json_array;
 	private static JsonObject json_obj;
-	// for retrieving data
-
 	public static String selected_item_notes;
     public static byte[] downloadedBinaryDataArray;
     
@@ -54,7 +55,7 @@ public class S3DBC extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_s3_dbc);
 
-		// setting up login environment
+		
 		final Button login_button = (Button) findViewById(R.id.login_button);
 		final EditText usrnameFiled = (EditText) findViewById(R.id.usrname_field);
 		final EditText password_field = (EditText) findViewById(R.id.password_field);
@@ -112,6 +113,9 @@ public class S3DBC extends Activity {
 		return result;
 	}
 
+	
+	
+	//@todo
 	public static void fileUploadByCollectionIdAndRuleId(ContentResolver cr,
 			Uri fileUrl, String api_key, String collection_id, String rule_id,
 			String fileName) {
@@ -172,12 +176,15 @@ public class S3DBC extends Activity {
 				+ "<where>" + "<rule_id>" +rule_id + "</rule_id>" + "</where>"
 				+ "</S3QL>";
 		
+		
+		
 		S3DBC.sendS3Qlrequest(query,S3DBC.api_key);
 	}
 	
 	
 	public static void downloadBinaryFilesByFileTypeAndRuleID(String fileType,String rule_id){
 		 S3DBC.selectStatmentsByRuleId(rule_id);
+		 S3DBC.downloaded_file_type=fileType;
 		 action_flag ="select_statement_for_later_process";
 	}
 	
@@ -273,12 +280,15 @@ public class S3DBC extends Activity {
 								
 								
 								if(action_flag.equals("select_statement_for_later_process")){
-									ArrayList<String> targetedStatementIdList=new ArrayList<String>();
+									
 									for(int i=0;i<json_array.size();i++){
-										json_obj = json_array.get(i).getAsJsonObject();										
-										targetedStatementIdList.add(json_obj.get("statement_id").toString());
-										Log.v("select_statement_for_later_process",json_obj.get("statement_id").toString());
-									}
+										json_obj = json_array.get(i).getAsJsonObject();	
+										
+										if(json_obj.get("file_name").toString().contains(".jpg")){
+											 S3DBC.downloadBinaryFile(json_obj.get("file_name").toString());
+											 Log.v("bulk_donwload", "bd"); 
+										}										
+																			}
 									
 								}
 
@@ -322,6 +332,9 @@ public class S3DBC extends Activity {
 					
 			         // prepare to save data to sd card and present in image slider using animation
 					//http://stackoverflow.com/questions/3545493/display-byte-to-imageview-in-android
+					//http://stackoverflow.com/questions/12844988/how-to-create-image-slider-in-android
+					//http://android-developers.blogspot.in/2011/08/horizontal-view-swiping-with-viewpager.html
+					//http://codinglookseasy.blogspot.in/2012/08/image-slide-show.html
 					 // consider viewflipper
 					 File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "s3qldroid");
 					 
